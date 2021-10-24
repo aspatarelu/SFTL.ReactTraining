@@ -1,0 +1,6 @@
+.vs/
+SFTL.ReactTraining.API/bin/
+SFTL.ReactTraining.API/obj/
+SFTL.ReactTraining.IdentitySrv/bin/Debug/netcoreapp3.1/appsettings.json
+SFTL.ReactTraining.IdentitySrv/bin/
+SFTL.ReactTraining.IdentitySrv/obj/
