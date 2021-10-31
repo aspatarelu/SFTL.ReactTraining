@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
+using SFTL.ReactTraining.DAL;
+using SFTL.ReactTraining.DAL.Interfaces;
 using System.Net.Http;
 
 namespace SFTL.ReactTraining.API
@@ -21,6 +24,8 @@ namespace SFTL.ReactTraining.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped<IProductRepo, ProductRepository>();
+            services.AddDbContext<DataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("dbConnection")));
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {

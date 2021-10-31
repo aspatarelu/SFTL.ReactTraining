@@ -9,7 +9,7 @@ async function getDoughnutsFromApi() {
 
 async function getResourcesFromApi() {
   const response = await axios.get(
-    "https://reacttrainingbackend.azurewebsites.net/resource"
+    "https://reacttrainingbackend.azurewebsites.net/product"
   );
 
   return response.data;
@@ -17,7 +17,7 @@ async function getResourcesFromApi() {
 
 async function getResourcesFromApi2() {
   const response = await axios.get(
-    "https://reacttrainingbackend.azurewebsites.net/resource/test2"
+    "https://reacttrainingbackend.azurewebsites.net/product/test2"
   );
 
   return response.data;
