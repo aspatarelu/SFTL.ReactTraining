@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 namespace SFTL.ReactTraining.API.Controllers
 {
     [ApiController]
-    [Authorize]
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {

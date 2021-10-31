@@ -5,5 +5,6 @@
   </PropertyGroup>
   <PropertyGroup>
     <ActiveDebugProfile>IISExpress</ActiveDebugProfile>
+    <NameOfLastUsedPublishProfile>D:\work\sftl\SFTL.ReactTraining-main\SFTL.ReactTraining-main\SFTL.ReactTraining.IdentitySrv\Properties\PublishProfiles\TrainingIdentityServer - Web Deploy.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
 </Project>

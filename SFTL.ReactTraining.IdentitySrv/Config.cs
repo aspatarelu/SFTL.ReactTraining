@@ -22,20 +22,18 @@ namespace SFTL.ReactTraining.IdentitySrv
                 new ApiScope("ReactTraining.Api", "React training"),
             };
 
+        public static IEnumerable<ApiResource> ApiResources =>
+    new List<ApiResource>
+    {
+                new ApiResource("ReactTraining.Api", "ReactTraining Api", new List<string>{"name", "email", "IsAdmin"})
+                {
+                    Scopes = { "ReactTraining.Api" }
+                }
+    };
+
         public static IEnumerable<Client> Clients =>
             new Client[]
             {
-                // m2m client credentials flow client
-                new Client
-                {
-                    ClientId = "m2m.client",
-                    ClientName = "Client Credentials Client",
-
-                    AllowedGrantTypes = GrantTypes.ClientCredentials,
-                    ClientSecrets = { new Secret("511536EF-F270-4058-80CA-1C89C192F69A".Sha256()) },
-
-                    AllowedScopes = { "scope1" }
-                },
 
                 // interactive client using code flow + pkce
                 new Client
@@ -50,9 +48,10 @@ namespace SFTL.ReactTraining.IdentitySrv
 
 
                     RedirectUris = { "http://localhost:3000/signin-oidc" },
+                    AllowedCorsOrigins = { "http://localhost:3000" },
                     PostLogoutRedirectUris = { "http://localhost:3000/signout-callback-oidc" },
 
-                    AllowedScopes = { "openid", "profile", "ReactTraining.Api" }
+                    AllowedScopes = { "openid", "profile", "ReactTraining.Api", }
                 },
             };
     }

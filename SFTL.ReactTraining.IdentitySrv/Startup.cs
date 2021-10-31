@@ -35,19 +35,11 @@ namespace SFTL.ReactTraining.IdentitySrv
             //    .AddEntityFrameworkStores<ApplicationDbContext>()
             //    .AddDefaultTokenProviders();
 
-            var builder = services.AddIdentityServer(options =>
-            {
-                options.Events.RaiseErrorEvents = true;
-                options.Events.RaiseInformationEvents = true;
-                options.Events.RaiseFailureEvents = true;
-                options.Events.RaiseSuccessEvents = true;
-
-                // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
-                options.EmitStaticAudienceClaim = true;
-            })
+            var builder = services.AddIdentityServer()
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryClients(Config.Clients)
+                .AddInMemoryApiResources(Config.ApiResources)
                 .AddTestUsers(IdentityServerHost.Quickstart.UI.TestUsers.Users);
 
             // not recommended for production - you need to store your key material somewhere secure
@@ -76,7 +68,6 @@ namespace SFTL.ReactTraining.IdentitySrv
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseCors();
             app.UseIdentityServer();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>

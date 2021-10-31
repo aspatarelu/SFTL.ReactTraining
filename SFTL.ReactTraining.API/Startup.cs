@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Logging;
+using System.Net.Http;
 
 namespace SFTL.ReactTraining.API
 {
@@ -23,11 +24,23 @@ namespace SFTL.ReactTraining.API
             services.AddAuthentication("Bearer")
                 .AddJwtBearer("Bearer", options =>
                 {
-                    options.Authority = "https://localhost:5001";//get from appsettings
+                    options.Authority = Configuration["Authorization:Authority"];//get from appsettings
                     options.RequireHttpsMetadata = false;
                     options.Audience = "ReactTraining.Api";
-                });
-            services.AddAuthorization();
+                    options.SaveToken = true;
+                    options.BackchannelHttpHandler = new HttpClientHandler { ServerCertificateCustomValidationCallback = delegate { return true; } };
+                })
+                .AddCookie();
+
+            services.AddMvcCore(options => {
+                options.EnableEndpointRouting = false;
+            })
+            .AddAuthorization(options =>
+            options.AddPolicy("AdminOnly",
+                 policy => policy.RequireClaim("IsAdmin"))
+            
+            );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -36,12 +49,14 @@ namespace SFTL.ReactTraining.API
             IdentityModelEventSource.ShowPII = true;
 
             app.UseCors(builder =>
-                builder.WithOrigins("http://localhost:3000")
+                builder.WithOrigins(Configuration["Authorization:ClientOrigin"])
                 .AllowAnyHeader()
                 .AllowAnyMethod()
                 .AllowCredentials()
             );
             app.UseAuthentication();
+
+            app.UseMvc();
 
             if (env.IsDevelopment())
             {
@@ -49,8 +64,8 @@ namespace SFTL.ReactTraining.API
             }
 
             app.UseRouting();
+            app.UseAuthorization();
 
- 
 
             app.UseEndpoints(endpoints =>
             {
